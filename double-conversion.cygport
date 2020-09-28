@@ -1,0 +1,108 @@
+NAME="double-conversion"
+VERSION=3.1.5p24
+RELEASE=1
+CATEGORY="Libs"
+SUMMARY="binary-decimal and decimal-binary routines for IEEE doubles"
+DESCRIPTION="\
+This project (double-conversion) provides binary-decimal and decimal-binary
+routines for IEEE doubles.
+  The library consists of efficient conversion routines that have been
+extracted from the V8 JavaScript engine. The code has been refactored and
+improved so that it can be used more easily in other projects.
+"
+HOMEPAGE="https://github.com/google/double-conversion"
+
+################################
+inherit cmake
+
+################################
+## Settings for 'download'
+################################
+# Source from a git repository
+GIT_REPO="https://github.com/google/double-conversion"
+declare -A GIT_COMMIT_BY_NAME=(
+  [3.1.5p24]=b1d531bfb130e7149ffe24bb0f1c5c01f20c3a5f
+  [3.1.5]=5fa81e88ef24e735b4283b8f7454dc59693ac1fc # tag: v3.1.5
+)
+GIT_COMMIT="${GIT_COMMIT_BY_NAME[${VERSION}]}"
+GIT_BASENAME="${GIT_REPO##*/}"
+# GitHub
+SRC_URI="${GIT_REPO}/archive/${GIT_COMMIT}.tar.gz"
+SRC_DIR="${GIT_BASENAME}-${GIT_COMMIT}"
+# GitLab
+#SRC_URI="${GIT_REPO}/-/archive/${GIT_COMMIT}/${GIT_BASENAME}-${GIT_COMMIT}.tar.bz2"
+#SRC_DIR="${GIT_BASENAME}-${GIT_COMMIT}"
+
+################################
+## Settings for 'prep'
+################################
+# Apply patches whose filenames are in a default style of 'git format-patch'.
+PATCH_URI=$(\
+  find -maxdepth 1 -type f -name '[0-9][0-9][0-9][0-9]-*.patch' \
+  | sort \
+)
+# And then, additional patches, if any.
+PATCH_URI+="
+"
+# A list of files to be deleted immediately upon unpacking sources
+# (cf. /usr/share/cygport/lib/src_prep.cygpart).
+#DISTCLEANFILES="
+#"
+
+################################
+## Settings for 'compile'
+################################
+BUILD_REQUIRES="\
+  cmake\
+  ninja\
+"
+
+# Any options to be passed to 'make' through 'cygmake'
+# (cf. /usr/share/cygport/lib/src_compile.cygpart).
+#MAKEOPTS="-j1"  # Avoid running multiple jobs in parallel.
+
+# Additional flags to pass to cmake during cygcmake.
+# (cf. /usr/share/cygport/cygclass/cmake.cygclass).
+CYGCMAKE_ARGS="
+  -DCYGWIN:BOOL=ON
+  -DBUILD_SHARED_LIBS:BOOL=ON
+"
+
+################################
+## Settings for 'package'
+################################
+ABI=3
+
+DIFF_EXCLUDES="\
+"
+
+################################
+# Runtime libraries
+THIS_PN="lib${NAME}${ABI}"
+THIS_VN=${THIS_PN//[-+\.]/_}
+PKG_NAMES+=" ${THIS_PN}"
+
+printf -v "${THIS_VN}_SUMMARY"  "%s" "${SUMMARY% *} (runtime)"
+printf -v "${THIS_VN}_CONTENTS" "%s" "\
+  usr/bin/*.dll \
+"
+printf -v "${THIS_VN}_REQUIRES" "%s" "\
+"
+
+################################
+# Devel
+
+THIS_PN="lib${NAME}-devel"
+THIS_VN=${THIS_PN//[-+\.]/_}
+PKG_NAMES+=" ${THIS_PN}"
+
+printf -v "${THIS_VN}_SUMMARY"  "%s" "${SUMMARY% *} (development)"
+printf -v "${THIS_VN}_CONTENTS" "%s" "\
+  usr/include/ \
+  usr/lib/ \
+  usr/share/doc/ \
+"
+printf -v "${THIS_VN}_REQUIRES" "%s" "\
+"
+
+################################
