@@ -1,5 +1,5 @@
 NAME="double-conversion"
-VERSION=3.1.7
+VERSION=3.2.0
 RELEASE=1
 CATEGORY="Libs"
 SUMMARY="binary-decimal and decimal-binary routines for IEEE doubles"
@@ -22,6 +22,7 @@ inherit cmake
 GIT_REPO="https://github.com/google/double-conversion"
 declare -A GIT_DATEHASH_BY_NAME=(
   # git log --date=iso-strict --format='%cd/%H' -1
+  [3.2.0]=2022-01-10T10:47:12+01:00/v3.2.0
   [3.1.7]=2021-12-22T22:02:13+01:00/v3.1.7
   [3.1.6]=2021-12-04T17:26:02+01:00/v3.1.6
   [3.1.5p24]=2020-06-29T16:15:14+02:00/b1d531bfb130e7149ffe24bb0f1c5c01f20c3a5f
