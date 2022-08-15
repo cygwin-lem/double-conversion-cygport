@@ -12,6 +12,10 @@ improved so that it can be used more easily in other projects.
 "
 HOMEPAGE="https://github.com/google/double-conversion"
 
+LICENSE="BSD-3-Clause"
+# cf. https://www.cygwin.com/packaging-hint-files.html#pvr-src.hint
+#     https://spdx.org/licenses/BSD-3-Clause.html
+
 ################################
 inherit cmake
 
