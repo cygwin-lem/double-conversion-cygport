@@ -1,0 +1,13 @@
+category: Libs
+build-depends: cygport cmake ninja
+sdesc: "binary-decimal and decimal-binary routines for IEEE doubles"
+ldesc: "This project (double-conversion) provides binary-decimal and decimal-binary
+routines for IEEE doubles.
+  The library consists of efficient conversion routines that have been
+extracted from the V8 JavaScript engine. The code has been refactored and
+improved so that it can be used more easily in other projects.
+"
+skip:
+
+homepage: https://github.com/google/double-conversion
+license: BSD-3-Clause
